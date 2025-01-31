@@ -1,9 +1,6 @@
-
-
-function App() {
-
+function App () {
   return (
-    <p className=''>Ola</p>
+    <p>Ola</p>
   )
 }
 

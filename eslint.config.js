@@ -1,4 +1,3 @@
-import eslintPluginReact from 'eslint-plugin-react'
 import eslintPluginImport from 'eslint-plugin-import'
 import js from '@eslint/js'
 
@@ -7,12 +6,11 @@ export default [
   {
     files: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx'],
     plugins: {
-      react: eslintPluginReact,
       import: eslintPluginImport
     },
     rules: {
-      'react/react-in-jsx-scope': 'off',
-      'no-console': 'warn',
+      'import/no-unresolved': 'error',
+      'import/order': 'warn'
     }
   }
 ]
