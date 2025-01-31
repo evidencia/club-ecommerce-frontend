@@ -7,6 +7,13 @@ export default [
     plugins: {
       import: eslintPluginImport
     },
+    ignores: [
+      '**/node_modules/**', // Ignora a pasta node_modules
+      '**/dist/**', // Ignora a pasta dist
+      '**/build/**', // Ignora a pasta build
+      '**/*.test.js', // Ignora arquivos de teste
+      '**/*.spec.js' // Ignora arquivos de especificação
+    ],
 
     files: ['*.ts', '*.tsx'], // Aplica as regras apenas para arquivos TypeScript
     rules: {
