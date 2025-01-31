@@ -4,13 +4,18 @@ import js from '@eslint/js'
 export default [
   js.configs.recommended,
   {
-    files: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx'],
     plugins: {
       import: eslintPluginImport
     },
-    rules: {
-      'import/no-unresolved': 'error',
-      'import/order': 'warn'
-    }
+    overrides: [
+      {
+        files: ['*.ts', '*.tsx'], // Aplica as regras apenas para arquivos TypeScript
+        rules: {
+          'import/no-unresolved': 'error',
+          'import/order': 'warn',
+          'react/react-in-jsx-scope': 'off'
+        }
+      }
+    ]
   }
 ]
