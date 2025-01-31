@@ -1,11 +1,13 @@
 import eslintPluginImport from 'eslint-plugin-import'
 import js from '@eslint/js'
+import tsPlugin from '@typescript-eslint/eslint-plugin'
 
 export default [
   js.configs.recommended,
   {
     plugins: {
-      import: eslintPluginImport
+      import: eslintPluginImport,
+      '@typescript-eslint': tsPlugin
     },
     ignores: [
       '**/node_modules/**', // Ignora a pasta node_modules
