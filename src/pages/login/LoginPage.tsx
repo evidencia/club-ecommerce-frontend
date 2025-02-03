@@ -10,8 +10,13 @@ import InputErrorMessage from "../../components/Input-error-message/Input-error-
 
 import { LoginContainer, LoginHeadline, LoginInputContainer, LoginSubtitle } from "./Login.styles";
 
+interface LoginForm {
+  email: string
+  password: string
+}
+
 function LoginPAge() {
-  const { register, formState: {errors}, handleSubmit } = useForm()
+  const { register, formState: {errors}, handleSubmit } = useForm<LoginForm>()
 
   const handleSubmitPress = (data: any) =>{
 
@@ -53,10 +58,11 @@ function LoginPAge() {
 
         <LoginInputContainer>
           <p>Senha</p>
-          <CustomInput 
+          <CustomInput
+          type='password' 
             hasError={!!errors?.password}
             placeholder="Digite sua senha" 
-            {...register('passaword', { required: true })}
+            {...register('password', { required: true })}
           />
 
           {errors?.password?.type === 'required' && (
