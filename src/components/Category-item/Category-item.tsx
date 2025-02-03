@@ -1,6 +1,5 @@
 import Category from "../../types/categories.types";
-
-import './Category.styles.css'
+import { CategoryItemContainer, CategoryName } from "./Category.styles";
 
 interface CategoryItemProps {
   category: Category
@@ -8,15 +7,12 @@ interface CategoryItemProps {
 
 function CategoryItem({ category }: CategoryItemProps) {
   return (
-    <div 
-      className="category-item-container"
-      style={{backgroundImage: `url('${category.imageUrl}')`}}
-    >
-      <div className="category-name-container">
+    <CategoryItemContainer backgroundImage={category.imageUrl}>
+      <CategoryName className="category-name-container">
         <p>{category.displayName}</p>
         <p>Explorar</p>
-      </div>
-    </div>
+      </CategoryName>
+    </CategoryItemContainer>
   );
 }
 
