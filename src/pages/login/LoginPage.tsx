@@ -3,9 +3,16 @@ import CustomButton from "../../components/Custom-button/Custom-button";
 import Header from "../../components/Header/Header";
 import { FiLogIn } from "react-icons/fi";
 import CustomInput from "../../components/Custom-Input/Custom-Input";
+import { useForm } from 'react-hook-form'
 import { LoginContainer, LoginHeadline, LoginInputContainer, LoginSubtitle } from "./Login.styles";
 
 function LoginPAge() {
+  const { register, formState: {errors}, handleSubmit } = useForm()
+
+  const handleSubmitPress = (data: any) =>{
+
+  }
+
   return ( 
     <>
       <Header />
@@ -21,15 +28,26 @@ function LoginPAge() {
 
         <LoginInputContainer>
           <p>E-mail</p>
-          <CustomInput placeholder="Digite o seu email" />
+          <CustomInput 
+            hasError={!!errors?.email}
+            placeholder="Digite o seu email" 
+            {...register('email', { required: true })}
+          />
         </LoginInputContainer>
 
         <LoginInputContainer>
           <p>Senha</p>
-          <CustomInput placeholder="Digite sua senha" />
+          <CustomInput 
+            hasError={!!errors?.password}
+            placeholder="Digite sua senha" 
+            {...register('passaword', { required: true })}
+          />
         </LoginInputContainer>
 
-        <CustomButton startIcon={<FiLogIn size={18} />}>
+        <CustomButton 
+          startIcon={<FiLogIn size={18} />}
+          onClick={() => handleSubmit(handleSubmitPress)}
+        >
           Entrar
         </CustomButton>
       </LoginContainer>
