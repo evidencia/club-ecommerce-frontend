@@ -1,9 +1,13 @@
-import { BsGoogle } from "react-icons/bs";
-import CustomButton from "../../components/Custom-button/Custom-button";
-import Header from "../../components/Header/Header";
-import { FiLogIn } from "react-icons/fi";
-import CustomInput from "../../components/Custom-Input/Custom-Input";
 import { useForm } from 'react-hook-form'
+import { BsGoogle } from "react-icons/bs";
+import { FiLogIn } from "react-icons/fi";
+import validator from 'validator'
+
+import CustomButton from "../../components/Custom-button/Custom-button";
+import CustomInput from "../../components/Custom-Input/Custom-Input";
+import Header from "../../components/Header/Header";
+import InputErrorMessage from "../../components/Input-error-message/Input-error-message";
+
 import { LoginContainer, LoginHeadline, LoginInputContainer, LoginSubtitle } from "./Login.styles";
 
 function LoginPAge() {
@@ -31,8 +35,20 @@ function LoginPAge() {
           <CustomInput 
             hasError={!!errors?.email}
             placeholder="Digite o seu email" 
-            {...register('email', { required: true })}
+            {...register('email', { 
+              required: true, 
+              validate: (value: any)=> {
+                return validator.isEmail(value)
+              }
+            })}
           />
+          {errors?.email?.type === 'required' && (
+            <InputErrorMessage>O email é obrigatória.</InputErrorMessage>
+          )}
+
+          {errors?.email?.type === 'validate' && (
+            <InputErrorMessage>Por favor, insira um email válido</InputErrorMessage>
+          )}
         </LoginInputContainer>
 
         <LoginInputContainer>
@@ -42,6 +58,10 @@ function LoginPAge() {
             placeholder="Digite sua senha" 
             {...register('passaword', { required: true })}
           />
+
+          {errors?.password?.type === 'required' && (
+            <InputErrorMessage>A senha é obrigatória.</InputErrorMessage>
+          )}
         </LoginInputContainer>
 
         <CustomButton 
