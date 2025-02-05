@@ -1,6 +1,8 @@
 import { BsCart3 } from 'react-icons/bs'
 import { HeaderContainer, HeaderItem, HeaderItems, HeaderTitle } from './Header.styles';
 import { useNavigate } from 'react-router-dom';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../config/firebase.config';
 
 function Header() {
   const navigate = useNavigate()
@@ -13,7 +15,6 @@ function Header() {
     navigate('/sign-up')
   }
 
-
   return (
     <HeaderContainer>
       <HeaderTitle>CLUB CLOTHING</HeaderTitle>
@@ -22,6 +23,7 @@ function Header() {
         <HeaderItem>Explorar</HeaderItem>
         <HeaderItem onClick={handleLoginClick}>Login</HeaderItem>
         <HeaderItem onClick={handleSignUpClick}>Criar Conta</HeaderItem>
+        <HeaderItem onClick={()=> signOut(auth)}>Sair</HeaderItem>
         <HeaderItem>
           <BsCart3 size={25} />
           <p style={{marginLeft: 5}}>5</p>
