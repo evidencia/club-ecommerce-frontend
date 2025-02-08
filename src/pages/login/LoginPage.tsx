@@ -16,7 +16,7 @@ import Header from '../../components/Header/Header'
 import CustomButton from '../../components/Custom-button/Custom-button'
 import CustomInput from '../../components/Custom-Input/Custom-Input'
 import InputErrorMessage from '../../components/Input-error-message/Input-error-message'
-import { AuthError, AuthErrorCodes, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
+import { AuthError, AuthErrorCodes, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
 import { auth, db, googleProvider } from '../../config/firebase.config'
 import { addDoc, collection, getDocs, query, where } from 'firebase/firestore'
 
