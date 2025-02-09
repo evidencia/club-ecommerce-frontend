@@ -18,9 +18,13 @@ function Header() {
     navigate('/sign-up')
   }
 
+  const handleLogoClick = () => {
+    navigate('/')
+  }
+
   return (
     <HeaderContainer>
-      <HeaderTitle>CLUB CLOTHING</HeaderTitle>
+      <HeaderTitle onClick={handleLogoClick}>CLUB CLOTHING</HeaderTitle>
 
       <HeaderItems>
         <HeaderItem>Explorar</HeaderItem>
@@ -35,7 +39,7 @@ function Header() {
         { isAuthenticated && (
           <HeaderItem onClick={() => signOut(auth)}>Sair</HeaderItem>
         )}
-        
+
         <HeaderItem>
           <BsCart3 size={25} />
           <p style={{marginLeft: 5}}>5</p>
