@@ -17,6 +17,9 @@ import CustomButton from '../../components/Custom-button/Custom-button'
 import { AuthError, AuthErrorCodes, createUserWithEmailAndPassword } from 'firebase/auth'
 import { auth, db } from '../../config/firebase.config'
 import { addDoc, collection } from 'firebase/firestore'
+import { useContext, useEffect } from 'react'
+import { UserContext } from '../../contexts/user.context'
+import { useNavigate } from 'react-router-dom'
 
 interface SignUpForm {
   firstName: string
@@ -35,7 +38,16 @@ const SignUpPage = () => {
     formState: { errors }
   } = useForm<SignUpForm>()
 
+
   const watchPassword = watch('password')
+  const { isAuthenticated } = useContext(UserContext)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if( isAuthenticated ) {
+      navigate('/')
+    }
+  }, [isAuthenticated])
 
   const handleSubmitPress = async(data: SignUpForm) => {
     try {
