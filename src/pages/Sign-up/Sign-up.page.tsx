@@ -17,9 +17,10 @@ import CustomButton from '../../components/Custom-button/Custom-button'
 import { AuthError, AuthErrorCodes, createUserWithEmailAndPassword } from 'firebase/auth'
 import { auth, db } from '../../config/firebase.config'
 import { addDoc, collection } from 'firebase/firestore'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../../contexts/user.context'
 import { useNavigate } from 'react-router-dom'
+import Loading from '../../components/Loading/Loading'
 
 interface SignUpForm {
   firstName: string
@@ -38,6 +39,8 @@ const SignUpPage = () => {
     formState: { errors }
   } = useForm<SignUpForm>()
 
+  const [isLoading, setLoading] = useState(false)
+
 
   const watchPassword = watch('password')
   const { isAuthenticated } = useContext(UserContext)
@@ -51,6 +54,7 @@ const SignUpPage = () => {
 
   const handleSubmitPress = async(data: SignUpForm) => {
     try {
+      setLoading(true)
       const userCredentials = await createUserWithEmailAndPassword(
         auth, 
         data.email, 
@@ -73,6 +77,8 @@ const SignUpPage = () => {
           type: 'alreadyInUse'
         })
       }
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -80,6 +86,8 @@ const SignUpPage = () => {
     <>
       <Header />
 
+      {isLoading && <Loading />}
+      
       <SignUpContainer>
         <SignUpContent>
           <SignUpHeadline>Crie sua conta</SignUpHeadline>
