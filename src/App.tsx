@@ -9,6 +9,7 @@ import { UserContext } from "./contexts/user.context"
 import { useContext, useState } from "react"
 import { collection, getDocs, query, where } from "firebase/firestore"
 import { userConverter } from "./converters/firebase.converters"
+import Loading from "./components/Loading/Loading"
 
 function App() {
   const [isInitializing, setIsInitializing] = useState(true) 
@@ -35,7 +36,7 @@ function App() {
     setIsInitializing(false)
   })
   
-  if (isInitializing) return null
+  if (isInitializing) return <Loading />
 
   return (
     <Routes>
