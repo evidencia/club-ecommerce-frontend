@@ -4,29 +4,29 @@ import CartProduct from "../types/cart.types"
 interface IcartContext {
   isVisible: boolean
   products: CartProduct[]
-  toogleCart: () => void
+  toggleCart: () => void
 }
 
 interface CartContextProps {
   children: ReactNode
 }
 
-const CartContext = createContext<IcartContext>({
+export const CartContext = createContext<IcartContext>({
   isVisible: false,
   products: [],
-  toogleCart: () => {}
+  toggleCart: () => {}
 })
 
 const CartContextProvider = ({ children }: CartContextProps) => {
   const [isVisible, setVisible] = useState(false)
   const [products, setProducts] = useState<CartProduct[]>([])
 
-  const toogleCart = () => {
+  const toggleCart = () => {
     setVisible((prevState) => !prevState)
   }
 
   return (
-    <CartContext.Provider value={{isVisible, products, toogleCart}}>
+    <CartContext.Provider value={{ isVisible, products, toggleCart }}>
       {children}
     </CartContext.Provider>
   )

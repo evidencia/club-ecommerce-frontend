@@ -6,6 +6,7 @@ import './main.styles.css'
 import UserContextProvider from './contexts/user.context.tsx'
 import CategoryContextProvider from './contexts/category.context.tsx'
 import CartContextProvider from './contexts/cart.context.tsx'
+import Cart from './components/cart/cart.component.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -14,6 +15,7 @@ createRoot(document.getElementById('root')!).render(
         <CategoryContextProvider>
           <CartContextProvider>
             <App />
+            <Cart />
           </CartContextProvider>
         </CategoryContextProvider>
       </UserContextProvider>
