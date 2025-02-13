@@ -1,14 +1,16 @@
-import { createContext, ReactNode, useState } from "react"
+import { createContext, ReactNode, useMemo, useState } from "react"
 import CartProduct from "../types/cart.types"
 import Product from "../types/product.types"
 
 interface IcartContext {
   isVisible: boolean
   products: CartProduct[]
+  productsTotalPrice: number
   toggleCart: () => void
   addProductToCart: (product: Product) => void
   removeProductFromCart: (productId: string) => void
   increaseProductQuantity: (productId: string) => void
+  decreaseProductQuantity: (productId: string) => void
 }
 
 interface CartContextProps {
@@ -17,16 +19,24 @@ interface CartContextProps {
 
 export const CartContext = createContext<IcartContext>({
   isVisible: false,
+  productsTotalPrice: 0,
   products: [],
   toggleCart: () => {},
   addProductToCart: () => {},
-  removeProductFromCart: () => { },
-  increaseProductQuantity: () => { }
+  removeProductFromCart: () => {},
+  increaseProductQuantity: () => {},
+  decreaseProductQuantity: () => {},
 })
 
 const CartContextProvider = ({ children }: CartContextProps) => {
   const [isVisible, setVisible] = useState(false)
   const [products, setProducts] = useState<CartProduct[]>([])
+
+  const productsTotalPrice = useMemo(()=>{
+    return products.reduce((acc, currentProduct) => {
+      return acc + currentProduct.price * currentProduct.quantity
+    }, 0)
+  }, [products])
 
   const toggleCart = () => {
     setVisible((prevState) => !prevState)
@@ -71,8 +81,29 @@ const CartContextProvider = ({ children }: CartContextProps) => {
     )
   }
 
+  const decreaseProductQuantity = (productId: string) => {
+    setProducts((products) =>
+      products.map((product) =>
+        product.id === productId
+          ? { ...product, quantity: product.quantity - 1 }
+          : product
+      ).filter(product => product.quantity > 0)
+    )
+  }
+
   return (
-    <CartContext.Provider value={{ isVisible, products, toggleCart, addProductToCart, removeProductFromCart, increaseProductQuantity }}>
+    <CartContext.Provider 
+      value={{ 
+        isVisible, 
+        productsTotalPrice,
+        products, 
+        toggleCart, 
+        addProductToCart, 
+        removeProductFromCart, 
+        increaseProductQuantity,
+        decreaseProductQuantity,
+      }}
+    >
       {children}
     </CartContext.Provider>
   )
