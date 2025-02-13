@@ -1,10 +1,12 @@
 import { createContext, ReactNode, useState } from "react"
 import CartProduct from "../types/cart.types"
+import Product from "../types/product.types"
 
 interface IcartContext {
   isVisible: boolean
   products: CartProduct[]
   toggleCart: () => void
+  addProductToCart: (product: Product) => void
 }
 
 interface CartContextProps {
@@ -14,7 +16,9 @@ interface CartContextProps {
 export const CartContext = createContext<IcartContext>({
   isVisible: false,
   products: [],
-  toggleCart: () => {}
+  toggleCart: () => {},
+  addProductToCart: () => {}
+
 })
 
 const CartContextProvider = ({ children }: CartContextProps) => {
@@ -25,8 +29,12 @@ const CartContextProvider = ({ children }: CartContextProps) => {
     setVisible((prevState) => !prevState)
   }
 
+  const addProductToCart = (product: Product) => {
+    setProducts((prevState) => [...prevState, {...product, quantity: 1}])
+  }
+
   return (
-    <CartContext.Provider value={{ isVisible, products, toggleCart }}>
+    <CartContext.Provider value={{ isVisible, products, toggleCart, addProductToCart }}>
       {children}
     </CartContext.Provider>
   )
