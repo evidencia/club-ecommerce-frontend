@@ -5,13 +5,16 @@ import App from './App.tsx'
 import './main.styles.css'
 import UserContextProvider from './contexts/user.context.tsx'
 import CategoryContextProvider from './contexts/category.context.tsx'
+import CartContextProvider from './contexts/cart.context.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <UserContextProvider>
         <CategoryContextProvider>
-          <App />
+          <CartContextProvider>
+            <App />
+          </CartContextProvider>
         </CategoryContextProvider>
       </UserContextProvider>
     </BrowserRouter>

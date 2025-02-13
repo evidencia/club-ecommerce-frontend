@@ -5,7 +5,6 @@ import { categoryConverter } from "../../converters/firebase.converters";
 import { db } from "../../config/firebase.config";
 
 
-import { ProductContainer } from "../product-item/product-item.styles";
 import Category from "../../types/categories.types";
 import Loading from "../Loading/Loading";
 import ProductItem from "../product-item/product-item";
