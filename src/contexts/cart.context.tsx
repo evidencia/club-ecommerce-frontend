@@ -12,6 +12,7 @@ interface IcartContext {
   removeProductFromCart: (productId: string) => void
   increaseProductQuantity: (productId: string) => void
   decreaseProductQuantity: (productId: string) => void
+  clearProducts: () => void
 }
 
 interface CartContextProps {
@@ -28,6 +29,7 @@ export const CartContext = createContext<IcartContext>({
   removeProductFromCart: () => {},
   increaseProductQuantity: () => {},
   decreaseProductQuantity: () => {},
+  clearProducts: () => {}
 })
 
 const CartContextProvider = ({ children }: CartContextProps) => {
@@ -111,6 +113,10 @@ const CartContextProvider = ({ children }: CartContextProps) => {
     )
   }
 
+  const clearProducts = () => {
+    setProducts([])
+  }
+
   return (
     <CartContext.Provider 
       value={{ 
@@ -119,6 +125,7 @@ const CartContextProvider = ({ children }: CartContextProps) => {
         productsCount,
         products, 
         toggleCart, 
+        clearProducts,
         addProductToCart, 
         removeProductFromCart, 
         increaseProductQuantity,
