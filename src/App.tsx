@@ -13,6 +13,7 @@ import Loading from "./components/Loading/Loading"
 import ExplorePage from "./pages/explore/explore.page"
 import CategoryDetailsPage from "./pages/category-details/category-details.page"
 import CheckoutPage from "./pages/checkout/checkout.page"
+import AuthenticationGuards from "./guards/authentication.guards"
 
 function App() {
   const [isInitializing, setIsInitializing] = useState(true) 
@@ -46,7 +47,14 @@ function App() {
       <Route path='/' element={<Home />} />
       <Route path='/explore' element={<ExplorePage />} />
       <Route path='/category/:id' element={<CategoryDetailsPage />} />
-      <Route path='/checkout' element={<CheckoutPage />} />
+      <Route 
+        path='/checkout' 
+        element={
+          <AuthenticationGuards>
+            <CheckoutPage />
+          </AuthenticationGuards>
+        } 
+      />
       <Route path='/login' element={<LoginPage />} />
       <Route path='/sign-up' element={<SignUp />} />
     </Routes>
