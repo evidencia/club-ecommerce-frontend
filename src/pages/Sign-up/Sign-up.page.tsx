@@ -1,26 +1,26 @@
 import { FiLogIn } from 'react-icons/fi'
 import { useForm } from 'react-hook-form'
 import validator from 'validator'
-
-
-// Styles
 import {
-  SignUpContainer,
-  SignUpContent,
-  SignUpHeadline,
-  SignUpInputContainer
-} from './Sign-up.styles'
+  AuthError,
+  createUserWithEmailAndPassword,
+  AuthErrorCodes
+} from 'firebase/auth'
+import { addDoc, collection } from 'firebase/firestore'
+import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+
+
+
+// Utilities
+import { auth, db } from '../../config/firebase.config'
 import Header from '../../components/Header/Header'
+import Loading from '../../components/Loading/Loading'
+import { SignUpContainer, SignUpContent, SignUpHeadline, SignUpInputContainer } from './Sign-up.styles'
 import CustomInput from '../../components/Custom-Input/Custom-Input'
 import InputErrorMessage from '../../components/Input-error-message/Input-error-message'
 import CustomButton from '../../components/Custom-button/Custom-button'
-import { AuthError, AuthErrorCodes, createUserWithEmailAndPassword } from 'firebase/auth'
-import { auth, db } from '../../config/firebase.config'
-import { addDoc, collection } from 'firebase/firestore'
-import { useContext, useEffect, useState } from 'react'
-import { UserContext } from '../../contexts/user.context'
-import { useNavigate } from 'react-router-dom'
-import Loading from '../../components/Loading/Loading'
 
 interface SignUpForm {
   firstName: string
@@ -39,25 +39,29 @@ const SignUpPage = () => {
     formState: { errors }
   } = useForm<SignUpForm>()
 
-  const [isLoading, setLoading] = useState(false)
-
+  const [isLoading, setIsLoading] = useState(false)
 
   const watchPassword = watch('password')
-  const { isAuthenticated } = useContext(UserContext)
+
+  const { isAuthenticated } = useSelector(
+    (rootReducer: any) => rootReducer.userReducer
+  )
+
   const navigate = useNavigate()
 
   useEffect(() => {
-    if( isAuthenticated ) {
+    if (isAuthenticated) {
       navigate('/')
     }
   }, [isAuthenticated])
 
-  const handleSubmitPress = async(data: SignUpForm) => {
+  const handleSubmitPress = async (data: SignUpForm) => {
     try {
-      setLoading(true)
+      setIsLoading(true)
+
       const userCredentials = await createUserWithEmailAndPassword(
-        auth, 
-        data.email, 
+        auth,
+        data.email,
         data.password
       )
 
@@ -68,17 +72,14 @@ const SignUpPage = () => {
         lastName: data.lastName,
         provider: 'firebase'
       })
-
     } catch (error) {
       const _error = error as AuthError
 
       if (_error.code === AuthErrorCodes.EMAIL_EXISTS) {
-        return setError('email', {
-          type: 'alreadyInUse'
-        })
+        return setError('email', { type: 'alreadyInUse' })
       }
     } finally {
-      setLoading(false)
+      setIsLoading(false)
     }
   }
 
@@ -87,7 +88,7 @@ const SignUpPage = () => {
       <Header />
 
       {isLoading && <Loading />}
-      
+
       <SignUpContainer>
         <SignUpContent>
           <SignUpHeadline>Crie sua conta</SignUpHeadline>
@@ -136,7 +137,9 @@ const SignUpPage = () => {
             )}
 
             {errors?.email?.type === 'alreadyInUse' && (
-              <InputErrorMessage>Este email já está sendo utilizado.</InputErrorMessage>
+              <InputErrorMessage>
+                Este e-mail já está sendo utilizado.
+              </InputErrorMessage>
             )}
 
             {errors?.email?.type === 'validate' && (
@@ -160,7 +163,9 @@ const SignUpPage = () => {
             )}
 
             {errors?.password?.type === 'minLength' && (
-              <InputErrorMessage>A senha precisa ter no mínimo 6 caracteres.</InputErrorMessage>
+              <InputErrorMessage>
+                A senha precisa ter no mínimo 6 caracteres.
+              </InputErrorMessage>
             )}
           </SignUpInputContainer>
 
@@ -172,7 +177,7 @@ const SignUpPage = () => {
               type="password"
               {...register('passwordConfirmation', {
                 required: true,
-                maxLength: 6,
+                minLength: 6,
                 validate: (value) => {
                   return value === watchPassword
                 }
@@ -185,14 +190,16 @@ const SignUpPage = () => {
               </InputErrorMessage>
             )}
 
+            {errors?.passwordConfirmation?.type === 'minLength' && (
+              <InputErrorMessage>
+                A confirmação de senha precisa ter no mínimo 6 caracteres.
+              </InputErrorMessage>
+            )}
+
             {errors?.passwordConfirmation?.type === 'validate' && (
               <InputErrorMessage>
                 A confirmação de senha precisa ser igual a senha.
               </InputErrorMessage>
-            )}
-
-            {errors?.passwordConfirmation?.type === 'minLength' && (
-              <InputErrorMessage>A senha precisa ter no mínimo 6 caracteres.</InputErrorMessage>
             )}
           </SignUpInputContainer>
 

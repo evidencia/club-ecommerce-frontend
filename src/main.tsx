@@ -13,16 +13,17 @@ import store from './store/store.ts'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-    <Provider store={store}>
+    
       <UserContextProvider>
         <CategoryContextProvider>
           <CartContextProvider>
-            <App />
-            <Cart />
+            <Provider store={store}>
+              <App />
+              <Cart />
+          </Provider>
           </CartContextProvider>
         </CategoryContextProvider>
       </UserContextProvider>
-      </Provider>
     </BrowserRouter>
   </StrictMode>,
 )
