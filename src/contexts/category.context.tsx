@@ -1,10 +1,10 @@
 import { createContext, ReactNode, useState } from "react";
 import Category from "../types/categories.types";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../config/firebase.config";
+import { db } from "../converters/config/firebase.config";
 import { categoryConverter } from "../converters/firebase.converters";
 
-interface ICategoryContext{
+interface ICategoryContext {
   categories: Category[]
   fetchCategories: () => Promise<void>
   isLoading: boolean
@@ -45,13 +45,13 @@ const CategoryContextProvider = ({ children }: CategoryContextProps) => {
     }
   }
 
-  return ( 
-    <CategoryContext.Provider 
-      value={{categories, fetchCategories, isLoading}}
+  return (
+    <CategoryContext.Provider
+      value={{ categories, fetchCategories, isLoading }}
     >
       {children}
     </CategoryContext.Provider>
-  ) 
+  )
 }
 
 export default CategoryContextProvider

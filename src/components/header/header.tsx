@@ -4,8 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { CartContext } from '../../contexts/cart.context';
 import { useDispatch, useSelector } from 'react-redux';
-import { auth } from '../../config/firebase.config';
+import { auth } from '../../converters/config/firebase.config';
 import { signOut } from 'firebase/auth';
+import { logout } from '../../store/reducers/user/user.actions';
 
 function Header() {
   const navigate = useNavigate()
@@ -35,7 +36,7 @@ function Header() {
   }
 
   const handleSignOutClick = () => {
-    dispatch({type: 'LOGOUT_USER'})
+    dispatch(logout())
     signOut(auth)
   }
 
@@ -53,17 +54,17 @@ function Header() {
           </>
         )}
 
-        { isAuthenticated && (
+        {isAuthenticated && (
           <HeaderItem onClick={handleSignOutClick}>Sair</HeaderItem>
         )}
 
         <HeaderItem onClick={toggleCart}>
           <BsCart3 size={25} />
-          <p style={{marginLeft: 5}}>{productsCount}</p>
+          <p style={{ marginLeft: 5 }}>{productsCount}</p>
         </HeaderItem>
       </HeaderItems>
     </HeaderContainer>
-   );
+  );
 }
 
 export default Header;

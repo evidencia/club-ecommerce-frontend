@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { BiChevronLeft } from "react-icons/bi";
 import { categoryConverter } from "../../converters/firebase.converters";
-import { db } from "../../config/firebase.config";
+import { db } from "../../converters/config/firebase.config";
 
 
 import Category from "../../types/categories.types";
@@ -17,7 +17,7 @@ interface CategoryDetailSProps {
   categoryId: string
 }
 
-function CategoryDetails({ categoryId}: CategoryDetailSProps) {
+function CategoryDetails({ categoryId }: CategoryDetailSProps) {
   const [category, setCategory] = useState<Category | null>(null)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -30,7 +30,7 @@ function CategoryDetails({ categoryId}: CategoryDetailSProps) {
 
   useEffect(() => {
     const fetchCategory = async () => {
-      try{
+      try {
         setIsLoading(true)
         const querySnapshot = await getDocs(
           query(
@@ -41,9 +41,9 @@ function CategoryDetails({ categoryId}: CategoryDetailSProps) {
 
         const category = querySnapshot.docs[0]?.data()
         setCategory(category)
-      } catch (error){
+      } catch (error) {
         console.log(error)
-      }finally {
+      } finally {
         setIsLoading(false)
       }
     }

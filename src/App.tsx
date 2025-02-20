@@ -4,7 +4,7 @@ import Home from "./pages/home/Home"
 import LoginPage from "./pages/login/LoginPage"
 import SignUp from "./pages/Sign-up/Sign-up.page"
 import { onAuthStateChanged } from "firebase/auth"
-import { auth, db } from "./config/firebase.config"
+import { auth, db } from "./converters/config/firebase.config"
 import { collection, getDocs, query, where } from "firebase/firestore"
 import { userConverter } from "./converters/firebase.converters"
 import Loading from "./components/Loading/Loading"
@@ -15,10 +15,11 @@ import AuthenticationGuards from "./guards/authentication.guards"
 import PaymentConfirmationPage from "./pages/payment-confirmation/payment-confirmation.component"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react"
+import { loginUser, logout } from "./store/reducers/user/user.actions"
 
 
 function App() {
-  const [isInitializing, setIsInitializing] = useState(true) 
+  const [isInitializing, setIsInitializing] = useState(true)
   const dispatch = useDispatch()
 
   const { isAuthenticated } = useSelector(
@@ -27,12 +28,12 @@ function App() {
 
 
 
-  useEffect(()=> {
+  useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
       const isSigningOut = isAuthenticated && !user
       if (isSigningOut) {
 
-        dispatch({ type: 'LOGOUT_USER' })
+        dispatch(logout())
         return setIsInitializing(false)
       }
 
@@ -43,14 +44,15 @@ function App() {
         )
 
         const userFromFirestore = querySnapshot.docs[0]?.data()
-        dispatch({ type: 'LOGIN_USER', payload: userFromFirestore })
+        dispatch(loginUser(userFromFirestore))
+
         return setIsInitializing(false)
       }
 
       setIsInitializing(false)
     })
   }, [dispatch])
-  
+
   if (isInitializing) return <Loading />
 
   return (
@@ -58,13 +60,13 @@ function App() {
       <Route path='/' element={<Home />} />
       <Route path='/explore' element={<ExplorePage />} />
       <Route path='/category/:id' element={<CategoryDetailsPage />} />
-      <Route 
-        path='/checkout' 
+      <Route
+        path='/checkout'
         element={
           <AuthenticationGuards>
             <CheckoutPage />
           </AuthenticationGuards>
-        } 
+        }
       />
       <Route path='/payment-confirmation' element={<PaymentConfirmationPage />} />
       <Route path='/login' element={<LoginPage />} />

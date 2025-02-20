@@ -14,7 +14,7 @@ import { useSelector } from 'react-redux'
 
 
 // Utilities
-import { auth, db } from '../../config/firebase.config'
+import { auth, db } from '../../converters/config/firebase.config'
 import Header from '../../components/Header/Header'
 import Loading from '../../components/Loading/Loading'
 import { SignUpContainer, SignUpContent, SignUpHeadline, SignUpInputContainer } from './Sign-up.styles'
