@@ -9,7 +9,6 @@ import {
 import { addDoc, collection } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 
 
 
@@ -21,6 +20,7 @@ import { SignUpContainer, SignUpContent, SignUpHeadline, SignUpInputContainer } 
 import CustomInput from '../../components/Custom-Input/Custom-Input'
 import InputErrorMessage from '../../components/Input-error-message/Input-error-message'
 import CustomButton from '../../components/Custom-button/Custom-button'
+import { useAppSelector } from '../../hooks/redux.hooks'
 
 interface SignUpForm {
   firstName: string
@@ -43,7 +43,7 @@ const SignUpPage = () => {
 
   const watchPassword = watch('password')
 
-  const { isAuthenticated } = useSelector(
+  const { isAuthenticated } = useAppSelector(
     (rootReducer: any) => rootReducer.userReducer
   )
 

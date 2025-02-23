@@ -1,22 +1,23 @@
 import { BsCart3 } from 'react-icons/bs'
 import { HeaderContainer, HeaderItem, HeaderItems, HeaderTitle } from './Header.styles';
 import { useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
-import { CartContext } from '../../contexts/cart.context';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { auth } from '../../converters/config/firebase.config';
 import { signOut } from 'firebase/auth';
-import { logout } from '../../store/reducers/user/user.actions';
+import { logoutUser } from '../../store/reducers/user/user.actions';
+import { toggleCart  } from '../../store/reducers/cart/cart.actions';
+import { useAppSelector } from '../../hooks/redux.hooks';
+import { selectProductsCount } from '../../store/reducers/cart/cart.selectors';
 
 function Header() {
-  const navigate = useNavigate()
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
-  const { isAuthenticated } = useSelector(
+  const { isAuthenticated } = useAppSelector(
     (rootReducer: any) => rootReducer.userReducer
   )
 
-  const { toggleCart, productsCount } = useContext(CartContext)
+  const productsCount = useAppSelector(selectProductsCount)
 
 
   const handleLoginClick = () => {
@@ -36,8 +37,12 @@ function Header() {
   }
 
   const handleSignOutClick = () => {
-    dispatch(logout())
+    dispatch(logoutUser())
     signOut(auth)
+  }
+
+  const handleCartClick = () => {
+    dispatch(toggleCart())
   }
 
   return (
@@ -58,7 +63,7 @@ function Header() {
           <HeaderItem onClick={handleSignOutClick}>Sair</HeaderItem>
         )}
 
-        <HeaderItem onClick={toggleCart}>
+        <HeaderItem onClick={handleCartClick}>
           <BsCart3 size={25} />
           <p style={{ marginLeft: 5 }}>{productsCount}</p>
         </HeaderItem>

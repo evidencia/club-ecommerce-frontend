@@ -13,43 +13,49 @@ import CategoryDetailsPage from "./pages/category-details/category-details.page"
 import CheckoutPage from "./pages/checkout/checkout.page"
 import AuthenticationGuards from "./guards/authentication.guards"
 import PaymentConfirmationPage from "./pages/payment-confirmation/payment-confirmation.component"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { useEffect, useState } from "react"
-import { loginUser, logout } from "./store/reducers/user/user.actions"
+import { loginUser, logoutUser } from "./store/reducers/user/user.actions"
+import { useAppSelector } from "./hooks/redux.hooks"
 
 
 function App() {
   const [isInitializing, setIsInitializing] = useState(true)
   const dispatch = useDispatch()
 
-  const { isAuthenticated } = useSelector(
+  const { isAuthenticated } = useAppSelector(
     (rootReducer: any) => rootReducer.userReducer
   )
-
 
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
       const isSigningOut = isAuthenticated && !user
-      if (isSigningOut) {
 
-        dispatch(logout())
+      if (isSigningOut) {
+        dispatch(logoutUser())
+
         return setIsInitializing(false)
       }
 
       const isSigningIn = !isAuthenticated && user
+
       if (isSigningIn) {
         const querySnapshot = await getDocs(
-          query(collection(db, 'users').withConverter(userConverter), where('id', '==', user.uid))
+          query(
+            collection(db, 'users').withConverter(userConverter),
+            where('id', '==', user.uid)
+          )
         )
 
         const userFromFirestore = querySnapshot.docs[0]?.data()
+
         dispatch(loginUser(userFromFirestore))
 
         return setIsInitializing(false)
       }
 
-      setIsInitializing(false)
+      return setIsInitializing(false)
     })
   }, [dispatch])
 

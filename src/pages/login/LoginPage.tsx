@@ -22,7 +22,7 @@ import { addDoc, collection, getDocs, query, where } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Loading from '../../components/Loading/Loading'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from '../../hooks/redux.hooks'
 
 interface LoginForm {
   email: string
@@ -39,7 +39,7 @@ const LoginPage = () => {
 
   const [isLoading, setIsLoading] = useState(false)
 
-  const { isAuthenticated } = useSelector(
+  const { isAuthenticated } = useAppSelector(
     (rootReducer: any) => rootReducer.userReducer
   )
 
