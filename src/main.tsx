@@ -5,7 +5,6 @@ import { Provider } from 'react-redux'
 import App from './App.tsx'
 import './main.styles.css'
 import UserContextProvider from './contexts/user.context.tsx'
-import CategoryContextProvider from './contexts/category.context.tsx'
 import Cart from './components/cart/cart.component.tsx'
 import { store, persistedStore } from './store/store.ts'
 //@ts-ignore
@@ -17,8 +16,8 @@ createRoot(document.getElementById('root')!).render(
       <UserContextProvider>
         <Provider store={store}>
           <PersistGate persistor={persistedStore}>
-              <App />
-              <Cart />
+            <App />
+            <Cart />
           </PersistGate>
         </Provider>
       </UserContextProvider>
