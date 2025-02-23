@@ -15,7 +15,7 @@ import AuthenticationGuards from "./guards/authentication.guards"
 import PaymentConfirmationPage from "./pages/payment-confirmation/payment-confirmation.component"
 import { useDispatch } from "react-redux"
 import { useEffect, useState } from "react"
-import { loginUser, logoutUser } from "./store/reducers/user/user.actions"
+import { loginUser, logoutUser } from "./store/toolkit/user/user.slice"
 import { useAppSelector } from "./hooks/redux.hooks"
 
 
