@@ -17,10 +17,8 @@ createRoot(document.getElementById('root')!).render(
       <UserContextProvider>
         <Provider store={store}>
           <PersistGate persistor={persistedStore}>
-            <CategoryContextProvider>
-                <App />
-                <Cart />
-            </CategoryContextProvider>
+              <App />
+              <Cart />
           </PersistGate>
         </Provider>
       </UserContextProvider>

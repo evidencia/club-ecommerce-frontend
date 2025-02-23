@@ -33,7 +33,7 @@ function App() {
       const isSigningOut = isAuthenticated && !user
 
       if (isSigningOut) {
-        dispatch(logoutUser())
+        dispatch(logoutUser() as any)
 
         return setIsInitializing(false)
       }
@@ -50,7 +50,7 @@ function App() {
 
         const userFromFirestore = querySnapshot.docs[0]?.data()
 
-        dispatch(loginUser(userFromFirestore))
+        dispatch(loginUser(userFromFirestore) as any)
 
         return setIsInitializing(false)
       }
