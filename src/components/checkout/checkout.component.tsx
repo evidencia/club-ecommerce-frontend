@@ -1,14 +1,16 @@
-import { useContext, useState } from "react";
-import { CartContext } from "../../contexts/cart.context";
+import { useState } from "react";
 import { CheckoutContainer, CheckoutProducts, CheckoutTitle, CheckoutTotal } from './checkout.styles'
 import CustomButton from "../Custom-button/Custom-button";
 import { BsBagCheck } from "react-icons/bs";
 import CartItem from "../cart-item/cart-item.component";
 import axios from "axios";
 import Loading from "../Loading/Loading";
+import { useAppSelector } from "../../hooks/redux.hooks";
+import { selectProductsTotalPrice } from "../../store/reducers/cart/cart.selectors";
 
 function Chechout() {
-  const { products, productsTotalPrice } = useContext(CartContext)
+  const { products } = useAppSelector((state) => state.cartReducer)
+  const productsTotalPrice = useAppSelector(selectProductsTotalPrice)
   const [isLoading, setIsLoading] = useState(false)
 
   const handleFinishPurchaseClick = async () => {

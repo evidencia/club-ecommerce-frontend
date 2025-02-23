@@ -6,23 +6,23 @@ import App from './App.tsx'
 import './main.styles.css'
 import UserContextProvider from './contexts/user.context.tsx'
 import CategoryContextProvider from './contexts/category.context.tsx'
-import CartContextProvider from './contexts/cart.context.tsx'
 import Cart from './components/cart/cart.component.tsx'
-import store from './store/store.ts'
+import { store, persistedStore } from './store/store.ts'
+//@ts-ignore
+import { PersistGate } from 'redux-persist/integration/react'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-    
       <UserContextProvider>
-        <CategoryContextProvider>
-          <CartContextProvider>
-            <Provider store={store}>
-              <App />
-              <Cart />
-          </Provider>
-          </CartContextProvider>
-        </CategoryContextProvider>
+        <Provider store={store}>
+          <PersistGate persistor={persistedStore}>
+            <CategoryContextProvider>
+                <App />
+                <Cart />
+            </CategoryContextProvider>
+          </PersistGate>
+        </Provider>
       </UserContextProvider>
     </BrowserRouter>
   </StrictMode>,
