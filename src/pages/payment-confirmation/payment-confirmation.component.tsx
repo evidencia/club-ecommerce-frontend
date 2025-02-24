@@ -6,7 +6,7 @@ import Colors from "../../theme/theme.colors";
 import CustomButton from "../../components/Custom-button/Custom-button";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { clearCartProducts } from "../../store/reducers/cart/cart.actions";
+import { clearCartProduct } from "../../store/toolkit/cart/cart.slice"
 
 function PaymentConfirmationPage() {
   const [ searchParams ] = useSearchParams()
@@ -23,7 +23,7 @@ function PaymentConfirmationPage() {
 
   useEffect(()=> {
     if(status === 'true') {
-      dispatch(clearCartProducts())
+      dispatch(clearCartProduct())
     }
   }, [status])
 

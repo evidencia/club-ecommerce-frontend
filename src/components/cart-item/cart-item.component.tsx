@@ -2,7 +2,7 @@ import { AiOutlineClose, AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import CartProduct from "../../types/cart.types";
 import { CartItemContainer, CartItemImage, CartItemInfo, CartItemQuantity, RemoveButton } from "./cart-item.styles";
 import { useDispatch } from "react-redux";
-import { descreaseCartProductQuantity, increaseCartProductQuantity, removeProductFromCart } from "../../store/reducers/cart/cart.actions";
+import { decreaseCartProductQuantity, increaseCartProductQuantity, removeProductFromCart } from "../../store/toolkit/cart/cart.slice";
 
 interface CartItemProps {
   product: CartProduct
@@ -20,7 +20,7 @@ function CartItem({ product }: CartItemProps) {
   }
 
   const handleDecreaseClick = () => {
-    dispatch(descreaseCartProductQuantity(product.id))
+    dispatch(decreaseCartProductQuantity(product.id))
   }
 
   return (
