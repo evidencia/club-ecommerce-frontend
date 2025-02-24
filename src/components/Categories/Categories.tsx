@@ -3,7 +3,7 @@ import CategoryItem from "../Category-item/Category-item";
 import { CategoriesContainer, CategoriesContent } from "./Categpories.styles";
 import Loading from "../Loading/Loading";
 import { useDispatch } from "react-redux";
-import { fetchCatagories } from "../../store/reducers/category/category.actions";
+import { fetchCategories } from "../../store/toolkit/category/category.slice";
 import { useAppSelector } from "../../hooks/redux.hooks";
 
 function Categories() {
@@ -12,7 +12,7 @@ function Categories() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(fetchCatagories() as any)
+    dispatch(fetchCategories() as any)
   }, [])
 
   return ( 

@@ -4,7 +4,7 @@ import CategoryOverview from "../category-overview/Category-overview";
 import Loading from "../Loading/Loading";
 import { useAppSelector } from "../../hooks/redux.hooks";
 import { useDispatch } from "react-redux";
-import { fetchCatagories } from "../../store/reducers/category/category.actions";
+import { fetchCategories } from "../../store/toolkit/category/category.slice";
 
 function CategoriesOverview() {
   const { categories, isLoading } = useAppSelector(state =>state.categoryReducer )
@@ -13,7 +13,7 @@ function CategoriesOverview() {
 
   useEffect(()=> {
     if(categories.length === 0) {
-      dispatch(fetchCatagories() as any)
+      dispatch(fetchCategories() as any)
     }
   }, [])
 
